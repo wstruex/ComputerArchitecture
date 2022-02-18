@@ -1,0 +1,525 @@
+//WILLIAM TRUEX AND MICHAEL ANTONUCCIO
+//top level register file
+module Lab3_Truex(writeAddress, enable, reset, clock, Dc, readAddress0, readAddress1, Da, Db);
+
+input enable, clock, reset;
+input [4:0]writeAddress;
+input [31:0]Dc;
+input [4:0]readAddress0;
+input [4:0]readAddress1;
+output [31:0]Da;
+output [31:0]Db;
+
+wire [31:0]load;
+wire [31:0]regOut0; wire [31:0]regOut1; wire [31:0]regOut2; wire [31:0]regOut3;
+wire [31:0]regOut4; wire [31:0]regOut5; wire [31:0]regOut6; wire [31:0]regOut7;
+wire [31:0]regOut8; wire [31:0]regOut9; wire [31:0]regOut10; wire [31:0]regOut11;
+wire [31:0]regOut12; wire [31:0]regOut13; wire [31:0]regOut14; wire [31:0]regOut15;
+wire [31:0]regOut16; wire [31:0]regOut17; wire [31:0]regOut18; wire [31:0]regOut19;
+wire [31:0]regOut20; wire [31:0]regOut21; wire [31:0]regOut22; wire [31:0]regOut23;
+wire [31:0]regOut24; wire [31:0]regOut25; wire [31:0]regOut26; wire [31:0]regOut27;
+wire [31:0]regOut28; wire [31:0]regOut29; wire [31:0]regOut30; wire [31:0]regOut31;
+
+decoder5x32 decode(load[31:0], writeAddress[4:0], enable);
+
+//declare 32 registers and connect to decoder and assign individual outputs
+register reg0(reset, clock, load[0], Dc[31:0], regOut0[31:0]); 	
+register reg1(reset, clock, load[1], Dc[31:0], regOut1[31:0]);
+register reg2(reset, clock, load[2], Dc[31:0], regOut2[31:0]);
+register reg3(reset, clock, load[3], Dc[31:0], regOut3[31:0]);
+register reg4(reset, clock, load[4], Dc[31:0], regOut4[31:0]);
+register reg5(reset, clock, load[5], Dc[31:0], regOut5[31:0]);
+register reg6(reset, clock, load[6], Dc[31:0], regOut6[31:0]);
+register reg7(reset, clock, load[7], Dc[31:0], regOut7[31:0]);
+register reg8(reset, clock, load[8], Dc[31:0], regOut8[31:0]);
+register reg9(reset, clock, load[9], Dc[31:0], regOut9[31:0]);
+register reg10(reset, clock, load[10], Dc[31:0], regOut10[31:0]);
+register reg11(reset, clock, load[11], Dc[31:0], regOut11[31:0]);
+register reg12(reset, clock, load[12], Dc[31:0], regOut12[31:0]);
+register reg13(reset, clock, load[13], Dc[31:0], regOut13[31:0]);
+register reg14(reset, clock, load[14], Dc[31:0], regOut14[31:0]);
+register reg15(reset, clock, load[15], Dc[31:0], regOut15[31:0]);
+register reg16(reset, clock, load[16], Dc[31:0], regOut16[31:0]);
+register reg17(reset, clock, load[17], Dc[31:0], regOut17[31:0]);
+register reg18(reset, clock, load[18], Dc[31:0], regOut18[31:0]);
+register reg19(reset, clock, load[19], Dc[31:0], regOut19[31:0]);
+register reg20(reset, clock, load[20], Dc[31:0], regOut20[31:0]);
+register reg21(reset, clock, load[21], Dc[31:0], regOut21[31:0]);
+register reg22(reset, clock, load[22], Dc[31:0], regOut22[31:0]);
+register reg23(reset, clock, load[23], Dc[31:0], regOut23[31:0]);
+register reg24(reset, clock, load[24], Dc[31:0], regOut24[31:0]);
+register reg25(reset, clock, load[25], Dc[31:0], regOut25[31:0]);
+register reg26(reset, clock, load[26], Dc[31:0], regOut26[31:0]);
+register reg27(reset, clock, load[27], Dc[31:0], regOut27[31:0]);
+register reg28(reset, clock, load[28], Dc[31:0], regOut28[31:0]);
+register reg29(reset, clock, load[29], Dc[31:0], regOut29[31:0]);
+register reg30(reset, clock, load[30], Dc[31:0], regOut30[31:0]);
+register reg31(reset, clock, load[31], Dc[31:0], regOut31[31:0]);
+
+//declare 2 mux and connect to registers and read addresses
+mux mux0(Da[31:0], readAddress0[4:0], 
+regOut0[31:0], regOut1[31:0], regOut2[31:0], regOut3[31:0],
+regOut4[31:0], regOut5[31:0], regOut6[31:0], regOut7[31:0],
+regOut8[31:0], regOut9[31:0], regOut10[31:0], regOut11[31:0], 
+regOut12[31:0], regOut13[31:0], regOut14[31:0], regOut15[31:0],
+regOut16[31:0], regOut17[31:0], regOut18[31:0], regOut19[31:0],
+regOut20[31:0], regOut21[31:0], regOut22[31:0], regOut23[31:0],
+regOut24[31:0], regOut25[31:0], regOut26[31:0], regOut27[31:0],
+regOut28[31:0], regOut29[31:0], regOut30[31:0], regOut31[31:0]);
+
+mux mux1(Db[31:0], readAddress1[4:0],
+regOut0[31:0], regOut1[31:0], regOut2[31:0], regOut3[31:0],
+regOut4[31:0], regOut5[31:0], regOut6[31:0], regOut7[31:0],
+regOut8[31:0], regOut9[31:0], regOut10[31:0], regOut11[31:0], 
+regOut12[31:0], regOut13[31:0], regOut14[31:0], regOut15[31:0],
+regOut16[31:0], regOut17[31:0], regOut18[31:0], regOut19[31:0],
+regOut20[31:0], regOut21[31:0], regOut22[31:0], regOut23[31:0],
+regOut24[31:0], regOut25[31:0], regOut26[31:0], regOut27[31:0],
+regOut28[31:0], regOut29[31:0], regOut30[31:0], regOut31[31:0]); 
+
+endmodule
+
+//--------------------------------------------------------------------------------------------
+module decoder5x32(y, a, en);
+
+input [4:0]a;                                  // 5 input lines
+input en;                                      // enable 
+output [31:0]y;                        		  // 32 output lines
+
+wire [3:0]w;                                //for storing the output of 2:4 decoder
+
+decoder2x4 x1(w,a[4:3],en);     		                                                         
+
+decoder3x8 x2(y[7:0], a[2:0],w[0]);  
+
+decoder3x8 x3(y[15:8], a[2:0],w[1]);
+
+decoder3x8 x4(y[23:16], a[2:0],w[2]);
+
+decoder3x8 x5(y[31:24], a[2:0],w[3]);
+
+endmodule
+
+//2:4 decoder
+
+module decoder2x4(y, a, en);
+
+output reg [3:0]y;
+input [1:0]a;
+input en;
+
+always @(a,en)               
+
+if(en)
+
+case(a)
+
+2'b00: y = 4'b0001;    
+2'b01: y = 4'b0010;
+2'b10: y = 4'b0100;
+2'b11: y = 4'b1000;
+
+default: y=0;
+
+endcase
+
+else y=0;             
+
+endmodule
+
+// 3:8 decoder
+
+module decoder3x8(y, a, en);
+
+output reg [7:0]y;
+input [2:0]a;
+input en;
+
+always @(a,en)
+
+if(en)
+
+case(a)                
+
+0: y = 8'b00000001;          
+1: y = 8'b00000010;          
+2: y = 8'b00000100;
+3: y = 8'b00001000;
+4: y = 8'b00010000;
+5: y = 8'b00100000;
+6: y = 8'b01000000;
+7: y = 8'b10000000;
+
+default: y=0;
+
+endcase
+
+else y=0;  
+
+endmodule 
+
+//-------------------------------------------------------------------------------------------
+module register(reset, clock, load, in, out);
+
+input [0:31]in;
+input reset;
+input clock;
+input load;
+output reg [0:31]out;
+
+always @(posedge clock)
+begin
+	if(reset==1)
+	out<=0;
+	else if(load == 1)
+	out<=in;
+	else
+	out<=out;
+	end
+endmodule
+//---------------------------------------------------------------------------------------
+module mux(out, signal, in0, in1, in2, in3, in4, in5, in6, in7, in8, in9, in10, 
+in11, in12, in13, in14, in15, in16, in17, in18, in19, in20, in21, in22, in23, 
+in24, in25, in26, in27, in28, in29, in30, in31);
+
+input [31:0]in0; input [31:0]in1; input [31:0]in2; input [31:0]in3; 
+input [31:0]in4; input [31:0]in5; input [31:0]in6; input [31:0]in7; 
+input [31:0]in8; input [31:0]in9; input [31:0]in10; input [31:0]in11;
+input [31:0]in12; input [31:0]in13; input [31:0]in14; input [31:0]in15;
+input [31:0]in16; input [31:0]in17; input [31:0]in18; input [31:0]in19;
+input [31:0]in20; input [31:0]in21; input [31:0]in22; input [31:0]in23; 
+input [31:0]in24; input [31:0]in25; input [31:0]in26; input [31:0]in27; 
+input [31:0]in28; input [31:0]in29; input [31:0]in30; input [31:0]in31;
+input [4:0] signal;
+output reg [31:0] out;
+
+always @ (signal, in0, in1, in2, in3, in4, in5, in6, in7, in8, in9, in10, 
+in11, in12, in13, in14, in15, in16, in17, in18, in19, in20, in21, in22, in23, 
+in24, in25, in26, in27, in28, in29, in30, in31)
+
+begin
+	case(signal)
+	5'b00000 : out <= in0;
+	5'b00001 : out <= in1;
+	5'b00010 : out <= in2;
+	5'b00011 : out <= in3;
+	5'b00100 : out <= in4;
+	5'b00101 : out <= in5;
+	5'b00110 : out <= in6;
+	5'b00111 : out <= in7;
+	5'b01000 : out <= in8;
+	5'b01001 : out <= in9;
+	5'b01010 : out <= in10;
+	5'b01011 : out <= in11;
+	5'b01100 : out <= in12;
+	5'b01101 : out <= in13;
+	5'b01110 : out <= in14;	
+	5'b01111 : out <= in15;
+	5'b10000 : out <= in16;
+	5'b10001 : out <= in17;
+	5'b10010 : out <= in18;
+	5'b10011 : out <= in19;
+	5'b10100 : out <= in20;
+	5'b10101 : out <= in21;
+	5'b10110 : out <= in22;
+	5'b10111 : out <= in23;
+	5'b11000 : out <= in24;
+	5'b11001 : out <= in25;
+	5'b11010 : out <= in26;
+	5'b11011 : out <= in27;
+	5'b11100 : out <= in28;
+	5'b11101 : out <= in29;
+	5'b11110 : out <= in30;
+	5'b11111 : out <= in31;
+	endcase
+end
+
+endmodule
+//---------------------------------------------------------------------------------------------
+//TESTBENCH UTILIZES REGISTER FILE THAT IS MODIFIED TO 8 BIT INSTEAD OF 32
+//THIS IS SO MODELSIM IS CAPABLE OF COMPILING THE CODE
+//USE TESTBENCH CODE UNDER THIS TESTBENCH TO RUN IN MODELSIM
+module test_tb;
+
+reg enable, clock, reset;
+reg [4:0]writeAddress;
+reg [7:0]Dc;
+reg [4:0]readAddress0;
+reg [4:0]readAddress1;
+wire [7:0]Da;
+wire [7:0]Db;
+
+test dut(.writeAddress(writeAddress), .enable(enable), .reset(reset), .clock(clock), .Dc(Dc), 
+.readAddress0(readAddress0), .readAddress1(readAddress1), .Da(Da), .Db(Db));
+
+initial begin
+
+clock = 0;
+forever #2 clock = ~clock;
+
+end
+
+initial begin
+
+enable = 1;
+#50 writeAddress = 5'b00001;
+#50 Dc = 8'b01101010;
+#50 writeAddress = 5'b00010;
+#50 Dc = 8'b01110010;
+#50 writeAddress = 5'b00100;
+#50 Dc = 8'b00100100;
+#50 writeAddress = 5'b01000;
+#50 Dc = 8'b10110100;
+#50 writeAddress = 5'b10000;
+#50 Dc = 8'b00000001;
+#50 readAddress0 = 5'b00010;
+#50 readAddress1 = 5'b01000;
+#50 readAddress0 = 5'b00000;
+#50 readAddress1 = 5'b00000;
+#50 reset = 1;
+#50 reset = 0;
+#50 enable = 0;
+
+end
+
+endmodule 
+
+//BELOW IS THE MODIFIED REGISTER FILE TO USE WITH THE TESTBENCH
+/* 
+//ALL 32 BIT BUSES WERE REDUCED TO 8 BIT SO MODELSIM COULD HANDLE TESTING
+module test(writeAddress, enable, reset, clock, Dc, readAddress0, readAddress1, Da, Db);
+
+input enable, clock, reset;
+input [4:0]writeAddress;
+input [7:0]Dc;
+input [4:0]readAddress0;
+input [4:0]readAddress1;
+output [7:0]Da;
+output [7:0]Db;
+
+wire [31:0]load;
+wire [7:0]regOut0; wire [7:0]regOut1; wire [7:0]regOut2; wire [7:0]regOut3;
+wire [7:0]regOut4; wire [7:0]regOut5; wire [7:0]regOut6; wire [7:0]regOut7;
+wire [7:0]regOut8; wire [7:0]regOut9; wire [7:0]regOut10; wire [7:0]regOut11;
+wire [7:0]regOut12; wire [7:0]regOut13; wire [7:0]regOut14; wire [7:0]regOut15;
+wire [7:0]regOut16; wire [7:0]regOut17; wire [7:0]regOut18; wire [7:0]regOut19;
+wire [7:0]regOut20; wire [7:0]regOut21; wire [7:0]regOut22; wire [7:0]regOut23;
+wire [7:0]regOut24; wire [7:0]regOut25; wire [7:0]regOut26; wire [7:0]regOut27;
+wire [7:0]regOut28; wire [7:0]regOut29; wire [7:0]regOut30; wire [7:0]regOut31;
+
+decoder5x32 decode(load[31:0], writeAddress[4:0], enable);
+
+//declare 32 registers and connect to decoder and assign individual outputs
+register reg0(reset, clock, load[0], Dc[7:0], regOut0[7:0]); 	
+register reg1(reset, clock, load[1], Dc[7:0], regOut1[7:0]);
+register reg2(reset, clock, load[2], Dc[7:0], regOut2[7:0]);
+register reg3(reset, clock, load[3], Dc[7:0], regOut3[7:0]);
+register reg4(reset, clock, load[4], Dc[7:0], regOut4[7:0]);
+register reg5(reset, clock, load[5], Dc[7:0], regOut5[7:0]);
+register reg6(reset, clock, load[6], Dc[7:0], regOut6[7:0]);
+register reg7(reset, clock, load[7], Dc[7:0], regOut7[7:0]);
+register reg8(reset, clock, load[8], Dc[7:0], regOut8[7:0]);
+register reg9(reset, clock, load[9], Dc[7:0], regOut9[7:0]);
+register reg10(reset, clock, load[10], Dc[7:0], regOut10[7:0]);
+register reg11(reset, clock, load[11], Dc[7:0], regOut11[7:0]);
+register reg12(reset, clock, load[12], Dc[7:0], regOut12[7:0]);
+register reg13(reset, clock, load[13], Dc[7:0], regOut13[7:0]);
+register reg14(reset, clock, load[14], Dc[7:0], regOut14[7:0]);
+register reg15(reset, clock, load[15], Dc[7:0], regOut15[7:0]);
+register reg16(reset, clock, load[16], Dc[7:0], regOut16[7:0]);
+register reg17(reset, clock, load[17], Dc[7:0], regOut17[7:0]);
+register reg18(reset, clock, load[18], Dc[7:0], regOut18[7:0]);
+register reg19(reset, clock, load[19], Dc[7:0], regOut19[7:0]);
+register reg20(reset, clock, load[20], Dc[7:0], regOut20[7:0]);
+register reg21(reset, clock, load[21], Dc[7:0], regOut21[7:0]);
+register reg22(reset, clock, load[22], Dc[7:0], regOut22[7:0]);
+register reg23(reset, clock, load[23], Dc[7:0], regOut23[7:0]);
+register reg24(reset, clock, load[24], Dc[7:0], regOut24[7:0]);
+register reg25(reset, clock, load[25], Dc[7:0], regOut25[7:0]);
+register reg26(reset, clock, load[26], Dc[7:0], regOut26[7:0]);
+register reg27(reset, clock, load[27], Dc[7:0], regOut27[7:0]);
+register reg28(reset, clock, load[28], Dc[7:0], regOut28[7:0]);
+register reg29(reset, clock, load[29], Dc[7:0], regOut29[7:0]);
+register reg30(reset, clock, load[30], Dc[7:0], regOut30[7:0]);
+register reg31(reset, clock, load[31], Dc[7:0], regOut31[7:0]);
+
+//declare 2 mux and connect to registers and read addresses
+mux mux0(Da[7:0], readAddress0[4:0], 
+regOut0[7:0], regOut1[7:0], regOut2[7:0], regOut3[7:0],
+regOut4[7:0], regOut5[7:0], regOut6[7:0], regOut7[7:0],
+regOut8[7:0], regOut9[7:0], regOut10[7:0], regOut11[7:0], 
+regOut12[7:0], regOut13[7:0], regOut14[7:0], regOut15[7:0],
+regOut16[7:0], regOut17[7:0], regOut18[7:0], regOut19[7:0],
+regOut20[7:0], regOut21[7:0], regOut22[7:0], regOut23[7:0],
+regOut24[7:0], regOut25[7:0], regOut26[7:0], regOut27[7:0],
+regOut28[7:0], regOut29[7:0], regOut30[7:0], regOut31[7:0]);
+
+mux mux1(Db[7:0], readAddress1[4:0],
+regOut0[7:0], regOut1[7:0], regOut2[7:0], regOut3[7:0],
+regOut4[7:0], regOut5[7:0], regOut6[7:0], regOut7[7:0],
+regOut8[7:0], regOut9[7:0], regOut10[7:0], regOut11[7:0], 
+regOut12[7:0], regOut13[7:0], regOut14[7:0], regOut15[7:0],
+regOut16[7:0], regOut17[7:0], regOut18[7:0], regOut19[7:0],
+regOut20[7:0], regOut21[7:0], regOut22[7:0], regOut23[7:0],
+regOut24[7:0], regOut25[7:0], regOut26[7:0], regOut27[7:0],
+regOut28[7:0], regOut29[7:0], regOut30[7:0], regOut31[7:0]); 
+
+endmodule
+
+//--------------------------------------------------------------------------------------------
+module decoder5x32(y, a, en);
+
+input [4:0]a;                                  // 5 input lines
+input en;                                      // enable 
+output [31:0]y;                        		  // 32 output lines
+
+wire [3:0]w;                                //for storing the output of 2:4 decoder
+
+decoder2x4 x1(w,a[4:3],en);     		                                                         
+
+decoder3x8 x2(y[7:0], a[2:0],w[0]);  
+
+decoder3x8 x3(y[15:8], a[2:0],w[1]);
+
+decoder3x8 x4(y[23:16], a[2:0],w[2]);
+
+decoder3x8 x5(y[31:24], a[2:0],w[3]);
+
+endmodule
+
+//2:4 decoder
+
+module decoder2x4(y, a, en);
+
+output reg [3:0]y;
+input [1:0]a;
+input en;
+
+always @(a,en)               
+
+if(en)
+
+case(a)
+
+2'b00: y = 4'b0001;    
+2'b01: y = 4'b0010;
+2'b10: y = 4'b0100;
+2'b11: y = 4'b1000;
+
+default: y=0;
+
+endcase
+
+else y=0;             
+
+endmodule
+
+// 3:8 decoder
+
+module decoder3x8(y, a, en);
+
+output reg [7:0]y;
+input [2:0]a;
+input en;
+
+always @(a,en)
+
+if(en)
+
+case(a)                
+
+0: y = 8'b00000001;          
+1: y = 8'b00000010;          
+2: y = 8'b00000100;
+3: y = 8'b00001000;
+4: y = 8'b00010000;
+5: y = 8'b00100000;
+6: y = 8'b01000000;
+7: y = 8'b10000000;
+
+default: y=0;
+
+endcase
+
+else y=0;  
+
+endmodule 
+
+//-------------------------------------------------------------------------------------------
+module register(reset, clock, load, in, out);
+
+input [0:31]in;
+input reset;
+input clock;
+input load;
+output reg [0:31]out;
+
+always @(posedge clock)
+begin
+	if(reset==1)
+	out<=0;
+	else if(load == 1)
+	out<=in;
+	else
+	out<=out;
+	end
+endmodule
+//---------------------------------------------------------------------------------------
+module mux(out, signal, in0, in1, in2, in3, in4, in5, in6, in7, in8, in9, in10, 
+in11, in12, in13, in14, in15, in16, in17, in18, in19, in20, in21, in22, in23, 
+in24, in25, in26, in27, in28, in29, in30, in31);
+
+input [7:0]in0; input [7:0]in1; input [7:0]in2; input [7:0]in3; 
+input [7:0]in4; input [7:0]in5; input [7:0]in6; input [7:0]in7; 
+input [7:0]in8; input [7:0]in9; input [7:0]in10; input [7:0]in11;
+input [7:0]in12; input [7:0]in13; input [7:0]in14; input [7:0]in15;
+input [7:0]in16; input [7:0]in17; input [7:0]in18; input [7:0]in19;
+input [7:0]in20; input [7:0]in21; input [7:0]in22; input [7:0]in23; 
+input [7:0]in24; input [7:0]in25; input [7:0]in26; input [7:0]in27; 
+input [7:0]in28; input [7:0]in29; input [7:0]in30; input [7:0]in31;
+input [4:0] signal;
+output reg [7:0] out;
+
+always @ (signal, in0, in1, in2, in3, in4, in5, in6, in7, in8, in9, in10, 
+in11, in12, in13, in14, in15, in16, in17, in18, in19, in20, in21, in22, in23, 
+in24, in25, in26, in27, in28, in29, in30, in31)
+
+begin
+	case(signal)
+	5'b00000 : out <= in0;
+	5'b00001 : out <= in1;
+	5'b00010 : out <= in2;
+	5'b00011 : out <= in3;
+	5'b00100 : out <= in4;
+	5'b00101 : out <= in5;
+	5'b00110 : out <= in6;
+	5'b00111 : out <= in7;
+	5'b01000 : out <= in8;
+	5'b01001 : out <= in9;
+	5'b01010 : out <= in10;
+	5'b01011 : out <= in11;
+	5'b01100 : out <= in12;
+	5'b01101 : out <= in13;
+	5'b01110 : out <= in14;	
+	5'b01111 : out <= in15;
+	5'b10000 : out <= in16;
+	5'b10001 : out <= in17;
+	5'b10010 : out <= in18;
+	5'b10011 : out <= in19;
+	5'b10100 : out <= in20;
+	5'b10101 : out <= in21;
+	5'b10110 : out <= in22;
+	5'b10111 : out <= in23;
+	5'b11000 : out <= in24;
+	5'b11001 : out <= in25;
+	5'b11010 : out <= in26;
+	5'b11011 : out <= in27;
+	5'b11100 : out <= in28;
+	5'b11101 : out <= in29;
+	5'b11110 : out <= in30;
+	5'b11111 : out <= in31;
+	endcase
+end
+
+endmodule
+//--------------------------------------------------------------------------------------------- */
