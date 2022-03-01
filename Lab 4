@@ -1,0 +1,284 @@
+module Lab4_Truex(A, B, c_in, opcode, out, status);
+
+input [31:0]A;
+input [31:0]B;
+input [2:0]opcode;
+input c_in;
+output [31:0]out;
+output [2:0]status;
+
+wire c_out;
+wire [31:0]adderout;
+wire [31:0]xORout;
+wire [31:0]aNDout;
+wire [31:0]oRout;
+wire [31:0]nORout;
+wire [31:0]rightshiftout;
+wire [31:0]leftshiftout;
+
+my_adder device0(A[31:0], B[31:0], adderout[31:0], c_in, c_out);	//module my_adder(A, B, sum, carry_in, carry_out);
+my_xOR 	device1(A[31:0], B[31:0], xORout[31:0]);	//module my_xOR(A, B, out);
+my_aND 	device2(A[31:0], B[31:0], aNDout[31:0]);	//module my_aND(A, B, out);
+my_oR 	device3(A[31:0], B[31:0], oRout[31:0]);	//module my_oR(A, B, out);
+my_nOR	device4(A[31:0], B[31:0], nORout[31:0]);	//module my_nOR(A, B, out);
+my_shifter device5 (A[31:0], B[31:0], leftshiftout[31:0], rightshiftout[31:0]); //module my_shifter(A, B, shiftleft, shiftright);
+
+//module mux(out, signal, in0, in1, in2, in3, in4, in5, in6);
+multiplexer mux0(out[31:0], opcode[2:0], adderout[31:0], xORout[31:0], aNDout[31:0], oRout[31:0], nORout[31:0], rightshiftout[31:0], leftshiftout[31:0]);
+
+assign status[0] = c_out;		//carry bit
+assign status[1] = out[31];	//negative bit
+assign status[2] = (~A[31] & ~B[31] & out[31])|(A[31] & B[31] & ~out[31]); //overflow bit
+
+endmodule 
+
+module multiplexer(out, signal, in0, in1, in2, in3, in4, in5, in6);
+
+input [2:0]signal;
+input [31:0]in0; input [31:0]in1; input [31:0]in2; input [31:0]in3;
+input [31:0]in4; input [31:0]in5; input [31:0]in6;
+output reg [31:0] out;
+
+always @(signal, in0, in1, in2, in3, in4, in5, in6)
+
+begin
+	case (signal)
+	3'b000 : out <= in0;
+	3'b001 : out <= in1;
+	3'b010 : out <= in2;
+	3'b011 : out <= in3;
+	3'b100 : out <= in4;
+	3'b101 : out <= in5;
+	3'b110 : out <= in6;
+	3'b111 : out = 0;
+	endcase
+	
+end
+
+endmodule 
+
+module my_adder(A, B, sum, carry_in, carry_out);
+
+input [31:0]A;
+input [31:0]B;
+input carry_in;
+output [31:0]sum;
+output carry_out;
+
+assign {carry_out, sum} = A + B + carry_in;
+
+endmodule 
+
+module my_xOR(A, B, out);
+
+input [31:0]A;
+input [31:0]B;
+output [31:0]out;
+
+assign out[0] = A[0] ^ B[0];
+assign out[1] = A[1] ^ B[1];
+assign out[2] = A[2] ^ B[2];
+assign out[3] = A[3] ^ B[3];
+assign out[4] = A[4] ^ B[4];
+assign out[5] = A[5] ^ B[5];
+assign out[6] = A[6] ^ B[6];
+assign out[7] = A[7] ^ B[7];
+assign out[8] = A[8] ^ B[8];
+assign out[9] = A[9] ^ B[9];
+assign out[10] = A[10] ^ B[10];
+assign out[11] = A[11] ^ B[11];
+assign out[12] = A[12] ^ B[12];
+assign out[13] = A[13] ^ B[13];
+assign out[14] = A[14] ^ B[14];
+assign out[15] = A[15] ^ B[15];
+assign out[16] = A[16] ^ B[16];
+assign out[17] = A[17] ^ B[17];
+assign out[18] = A[18] ^ B[18];
+assign out[19] = A[19] ^ B[19];
+assign out[20] = A[20] ^ B[20];
+assign out[21] = A[21] ^ B[21];
+assign out[22] = A[22] ^ B[22];
+assign out[23] = A[23] ^ B[23];
+assign out[24] = A[24] ^ B[24];
+assign out[25] = A[25] ^ B[25];
+assign out[26] = A[26] ^ B[26];
+assign out[27] = A[27] ^ B[27];
+assign out[28] = A[28] ^ B[28];
+assign out[29] = A[29] ^ B[29];
+assign out[30] = A[30] ^ B[30];
+assign out[31] = A[31] ^ B[31];
+
+endmodule
+
+module my_aND(A, B, out);
+
+input [31:0]A;
+input [31:0]B;
+output [31:0]out;
+
+assign out[0] = A[0] & B[0];
+assign out[1] = A[1] & B[1];
+assign out[2] = A[2] & B[2];
+assign out[3] = A[3] & B[3];
+assign out[4] = A[4] & B[4];
+assign out[5] = A[5] & B[5];
+assign out[6] = A[6] & B[6];
+assign out[7] = A[7] & B[7];
+assign out[8] = A[8] & B[8];
+assign out[9] = A[9] & B[9];
+assign out[10] = A[10] & B[10];
+assign out[11] = A[11] & B[11];
+assign out[12] = A[12] & B[12];
+assign out[13] = A[13] & B[13];
+assign out[14] = A[14] & B[14];
+assign out[15] = A[15] & B[15];
+assign out[16] = A[16] & B[16];
+assign out[17] = A[17] & B[17];
+assign out[18] = A[18] & B[18];
+assign out[19] = A[19] & B[19];
+assign out[20] = A[20] & B[20];
+assign out[21] = A[21] & B[21];
+assign out[22] = A[22] & B[22];
+assign out[23] = A[23] & B[23];
+assign out[24] = A[24] & B[24];
+assign out[25] = A[25] & B[25];
+assign out[26] = A[26] & B[26];
+assign out[27] = A[27] & B[27];
+assign out[28] = A[28] & B[28];
+assign out[29] = A[29] & B[29];
+assign out[30] = A[30] & B[30];
+assign out[31] = A[31] & B[31];
+
+endmodule 
+
+module my_oR(A, B, out);
+
+input [31:0]A;
+input [31:0]B;
+output [31:0]out;
+
+assign out[0] = A[0] | B[0];
+assign out[1] = A[1] | B[1];
+assign out[2] = A[2] | B[2];
+assign out[3] = A[3] | B[3];
+assign out[4] = A[4] | B[4];
+assign out[5] = A[5] | B[5];
+assign out[6] = A[6] | B[6];
+assign out[7] = A[7] | B[7];
+assign out[8] = A[8] | B[8];
+assign out[9] = A[9] | B[9];
+assign out[10] = A[10] | B[10];
+assign out[11] = A[11] | B[11];
+assign out[12] = A[12] | B[12];
+assign out[13] = A[13] | B[13];
+assign out[14] = A[14] | B[14];
+assign out[15] = A[15] | B[15];
+assign out[16] = A[16] | B[16];
+assign out[17] = A[17] | B[17];
+assign out[18] = A[18] | B[18];
+assign out[19] = A[19] | B[19];
+assign out[20] = A[20] | B[20];
+assign out[21] = A[21] | B[21];
+assign out[22] = A[22] | B[22];
+assign out[23] = A[23] | B[23];
+assign out[24] = A[24] | B[24];
+assign out[25] = A[25] | B[25];
+assign out[26] = A[26] | B[26];
+assign out[27] = A[27] | B[27];
+assign out[28] = A[28] | B[28];
+assign out[29] = A[29] | B[29];
+assign out[30] = A[30] | B[30];
+assign out[31] = A[31] | B[31];
+
+endmodule 
+
+module my_nOR(A, B, out);
+
+input [31:0]A;
+input [31:0]B;
+output [31:0]out;
+
+assign out[0] = ~(A[0] | B[0]);
+assign out[1] = ~(A[1] | B[1]);
+assign out[2] = ~(A[2] | B[2]);
+assign out[3] = ~(A[3] | B[3]);
+assign out[4] = ~(A[4] | B[4]);
+assign out[5] = ~(A[5] | B[5]);
+assign out[6] = ~(A[6] | B[6]);
+assign out[7] = ~(A[7] | B[7]);
+assign out[8] = ~(A[8] | B[8]);
+assign out[9] = ~(A[9] | B[9]);
+assign out[10] = ~(A[10] | B[10]);
+assign out[11] = ~(A[11] | B[11]);
+assign out[12] = ~(A[12] | B[12]);
+assign out[13] = ~(A[13] | B[13]);
+assign out[14] = ~(A[14] | B[14]);
+assign out[15] = ~(A[15] | B[15]);
+assign out[16] = ~(A[16] | B[16]);
+assign out[17] = ~(A[17] | B[17]);
+assign out[18] = ~(A[18] | B[18]);
+assign out[19] = ~(A[19] | B[19]);
+assign out[20] = ~(A[20] | B[20]);
+assign out[21] = ~(A[21] | B[21]);
+assign out[22] = ~(A[22] | B[22]);
+assign out[23] = ~(A[23] | B[23]);
+assign out[24] = ~(A[24] | B[24]);
+assign out[25] = ~(A[25] | B[25]);
+assign out[26] = ~(A[26] | B[26]);
+assign out[27] = ~(A[27] | B[27]);
+assign out[28] = ~(A[28] | B[28]);
+assign out[29] = ~(A[29] | B[29]);
+assign out[30] = ~(A[30] | B[30]);
+assign out[31] = ~(A[31] | B[31]);
+
+endmodule 
+
+module my_shifter(A, B, shiftleft, shiftright);
+
+input [31:0]A;
+input [31:0]B;
+output [31:0]shiftleft;
+output [31:0]shiftright;
+
+assign shiftleft = A << B[4:0];
+assign shiftright = A >> B[4:0];
+
+endmodule 
+
+//TESTBENCH -----------------------------------------------------------------------------------------
+//module Lab4_Truex(A, B, c_in, opcode, out, status);
+module Lab4_Truex_tb;
+
+reg [31:0]A;
+reg [31:0]B;
+reg [2:0]opcode;
+reg c_in;
+wire [31:0]out;
+wire [2:0]status;
+
+Lab4_Truex dut(.A(A), .B(B), .c_in(c_in), .opcode(opcode), .out(out), .status(status));
+
+initial begin
+
+c_in = 0;
+A = 32'b01101001010101010100010011110101; 
+B = 32'b10111101010010011101010100101010; 
+opcode = 3'b000;
+#50
+opcode = 3'b001;
+#50
+opcode = 3'b010;
+#50
+opcode = 3'b011;
+#50
+opcode = 3'b100;
+#50
+opcode = 3'b101;
+#50
+opcode = 3'b110;
+#50
+opcode = 3'b000;
+
+end
+
+endmodule 
