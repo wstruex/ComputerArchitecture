@@ -1,0 +1,147 @@
+//control unit
+module Lab9_Truex(clk, reset, inst, status, c_in, aluSRC, regRW, aluOP, MRW, WB, pcSRC, imm_sel);
+
+input clk, reset;
+input [31:0]inst;
+input [3:0]status;
+output reg c_in;
+output reg aluSRC;
+output reg regRW;
+output reg [3:0]aluOP;
+output reg MRW;
+output reg WB;
+output reg pcSRC;
+output reg [1:0]imm_sel;
+
+always @(inst or reset) begin
+	if(reset == 0)
+		case(inst[6:0])
+		
+		7'b0110011: begin //r-type
+			c_in = 1'b0;
+			aluSRC = 1'b0;
+			regRW = 1'b1;
+			MRW = 1'b0;
+			WB = 1'b0;
+			pcSRC = 1'b0;
+			imm_sel = 2'b00;
+			aluOP = {inst[30],inst[14:12]};
+		end
+		7'b0010011: begin //i-type
+			c_in = 1'b0;
+			aluSRC = 1'b1;
+			regRW = 1'b1;
+			MRW = 1'b1;
+			WB = 1'b1;
+			pcSRC = 1'b0;
+			imm_sel = 2'b01;
+			aluOP = {inst[30],inst[14:12]};
+		end
+		7'b0000011: begin //lw
+			c_in = 1'b0;
+			aluSRC = 1'b1;
+			regRW = 1'b1;
+			MRW = 1'b0;
+			WB = 1'b1;
+			pcSRC = 1'b0;
+			imm_sel = 2'b01;
+			aluOP = 4'b0000;
+		end
+		7'b0100011: begin //s-type
+			c_in = 1'b0;
+			aluSRC = 1'b1;
+			regRW = 1'b1;
+			MRW = 1'b0;
+			WB = 1'b1;
+			pcSRC = 1'b0;
+			imm_sel = 2'b10;
+			aluOP = 4'b0000;
+		end
+		7'b1100011: begin //b-type
+			c_in = 1'b0;
+			aluSRC = 1'b0;
+			regRW = 1'b0;
+			MRW = 1'b0;
+			WB = 1'b0;
+			imm_sel = 2'b11;
+			aluOP = 4'b1000;
+		
+		case (inst[14:12])
+			3'b000:begin
+			pcSRC = status[0] ? 1'b1:1'b0;
+		end
+			3'b100:begin 
+			pcSRC = status[1] ? 1'b1:1'b0;
+		end
+		endcase
+		end
+		endcase
+	else
+		case(inst[6:0])
+			7'b0000000: begin
+				c_in = 1'b0;
+				aluSRC = 1'b0;
+				regRW = 1'b0;
+				MRW = 1'b0;
+				WB = 1'b0;
+				pcSRC = 1'b0;
+				imm_sel = 2'b00;
+				aluOP = 4'b0000;
+			end
+		endcase 
+end 
+endmodule
+
+
+module Lab9_Truex_tb;
+
+reg clk, reset;
+reg [31:0]inst;
+reg [3:0]status;
+wire c_in;
+wire aluSRC;
+wire regRW;
+wire [3:0]aluOP;
+wire MRW;
+wire WB;
+wire pcSRC;
+wire [1:0]imm_sel;
+
+//top level: module Lab9_Truex(clk, reset, inst, status, c_in, aluSRC, regRW, aluOP, MRW, WB, pcSRC, imm_sel);
+Lab9_Truex dut(.clk(clk), .reset(reset), .inst(inst), .status(status), .c_in(c_in), .aluSRC(aluSRC), .regRW(regRW), 
+					.aluOP(aluOP), .MRW(MRW), .WB(WB), .pcSRC(pcSRC), .imm_sel(imm_sel));
+					
+initial begin
+
+clk = 0;
+forever #5 clk = ~clk;
+
+end 
+
+initial begin
+
+reset = 1;
+#10 reset = 0;
+status = 4'b0000;
+inst = 32'h00450693; 
+#10 inst = 32'h00100713; 
+#10 inst = 32'h00b76463;
+#10 inst = 32'h00008067; 
+#10 inst = 32'h0006a803; 
+#10 inst = 32'h00068613; 
+#10 inst = 32'h00070793; 
+#10 inst = 32'hffc62883; 
+#10 inst = 32'h01185a63; 
+#10 inst = 32'h01162023; 
+#10 inst = 32'hfff78793; 
+#10 inst = 32'hffc60613; 
+#10 inst = 32'hfe0796e3; 
+#10 inst = 32'h00279793; 
+#10 inst = 32'h00f507b3; 
+#10 inst = 32'h0107a023; 
+#10 inst = 32'h00170713; 
+#10 inst = 32'h00468693; 
+#10 inst = 32'hfc1ff06f;
+
+end 
+endmodule 
